@@ -10,13 +10,15 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:questions)).to eq questions
     end
 
-    it 'renders view index' do
+    it 'renders index template' do
       expect(response).to render_template :index
     end
+
   end
 
   describe 'GET #new' do
     before {get :new}
+
     it 'assigns a new Question to question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
