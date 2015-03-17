@@ -7,17 +7,12 @@ RSpec.describe AnswersController, type: :controller do
     let(:question) {create(:question)}
 
     context 'with valid attributes' do
-      it 'saves an answer into db' do
+      it 'saves answer that belongs to the question' do
         expect do 
           post :create, answer: attributes_for(:answer), question_id: question
         end.to change(question.answers, :count).from(0).to(1)
       end
 
-      it 'saves answer that belongs to the question' do
-        post :create, answer: attributes_for(:answer), question_id: question
-        expect(question.answers.first).to eq assigns(:answer)
-
-      end
       it 'redirects to show' do
         post :create, answer: attributes_for(:answer), question_id: question
         expect(response).to redirect_to [question, assigns(:answer)]
