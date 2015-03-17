@@ -10,7 +10,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'saves answer that belongs to the question' do
         expect do 
           post :create, answer: attributes_for(:answer), question_id: question
-        end.to change(question.answers, :count).from(0).to(1)
+        end.to change(question.answers, :count).by(1)
       end
 
       it 'redirects to show' do
