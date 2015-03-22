@@ -37,6 +37,7 @@ gem 'devise'
 group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
+  gem 'launchy'
 end
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
