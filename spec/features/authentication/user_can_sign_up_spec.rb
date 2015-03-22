@@ -6,9 +6,12 @@ feature 'User can sign up', %q{
   I want to be able to sign up
 } do
 
+
   scenario 'Non-registered user signs up' do
-    visit new_user_registration_path
-    fill_in 'user_email', with: 'test@user.com'
+    visit root_path
+    click_on 'Sign up'
+
+    fill_in 'user_email', with: 'user@test.com'
     fill_in 'user_password', with: '12345678'
     fill_in 'user_password_confirmation', with: '12345678'
     click_on 'Sign up'

@@ -7,19 +7,18 @@ feature 'User can sign in', %q{
   I want to be able to sign in
 } do
 
-  given!(:user) {create(:user) }
+  given(:user) {create(:user) }
 
   scenario 'Registered user tries to sign in' do
-    visit new_user_session_path
-    fill_in 'user_email', with: user.email
-    fill_in 'user_password', with: user.password
-    click_on 'Log in'
+    sign_in(user)
 
     expect(page).to have_content 'Signed in successfully'
   end
 
   scenario 'Non-registered user tries to sign in' do
-    visit new_user_session_path
+
+    visit root_path
+    click_on 'Log in'
     fill_in 'user_email', with: 'wrong@test.com'
     fill_in 'user_password', with: '1234'
     click_on 'Log in'
