@@ -5,11 +5,18 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
 
     if @answer.save
+      flash[:notice] = 'Your answer is saved successfully!'
       redirect_to [@question,@answer]
     else
+      flash[:alert] = 'Failed to save your answer!'
       render :new
     end
 
+  end
+
+  def show
+    @answer = Answer.find(params[:id])
+   # @question = Question.find(params[:question_id])
   end
 
 

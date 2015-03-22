@@ -2,13 +2,27 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
 
+
+
+  describe 'GET #show' do
+
+    let(:question) {create(:question)}
+    let(:answer) {create(:answer)}
+
+      before {get :show, question_id: question, id: answer}
+    it 'Assigns requested answer to @answer' do
+      expect(assigns(:answer)).to eq answer
+    end
+
+  end
+
   describe 'POST #create' do
 
     let(:question) {create(:question)}
 
     context 'with valid attributes' do
       it 'saves answer that belongs to the question' do
-        expect do 
+        expect do
           post :create, answer: attributes_for(:answer), question_id: question
         end.to change(question.answers, :count).by(1)
       end
