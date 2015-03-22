@@ -8,7 +8,8 @@ feature 'User can create a question', %q{
 } do
 
   scenario 'User creates a valid question' do
-    visit new_question_path
+    visit questions_path
+    click_on 'Ask a question'
     fill_in 'Title', with: 'Title'
     fill_in 'Body', with: 'Body'
     click_on 'Submit'
@@ -16,7 +17,8 @@ feature 'User can create a question', %q{
   end
 
   scenario 'User tries to create an invalid question' do
-    visit new_question_path
+    visit questions_path
+    click_on 'Ask a question'
     fill_in 'Title', with: 'Title'
     click_on 'Submit'
     expect(page).to have_content 'Failed to create question'
