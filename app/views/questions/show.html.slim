@@ -1,7 +1,13 @@
+p= @question.id
 p= @question.title
 p= @question.body
 
-= form_for [@question,@answer] do |f|
+- @question.answers.each do |a|
+  p=  a.body
+
+
+= form_for [@question,@question.answers.new] do |f|
   = f.label 'body'
   = f.text_field 'body'
   = f.submit 'Submit'
+
