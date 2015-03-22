@@ -24,16 +24,6 @@ feature 'User can create a question', %q{
     expect(page).to have_content 'Failed to create question'
 
   end
-  #scenario 'Authenticated user creates a question' do
-  #  User.create!(email: 'user@test.com', password: '12345678')
-  #  visit new_user_session_path
-  #  fill_in 'Email', with: 'user@test.com'
-  #  fill_in 'Password', with: '12345678'
-  #  click_on 'Log in'
-
-  #  expect(page).to have_content 'Signed in successfully'
-  #  expect(current_path).to eq root_path
-  #end
 
 
 end
