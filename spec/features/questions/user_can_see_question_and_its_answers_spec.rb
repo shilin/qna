@@ -17,7 +17,6 @@ feature 'User can view a question and all its answers', %q{
     question.answers.create(body: 'MyAnswerbody2')
     visit question_path(question)
     
-    save_and_open_page
     expect(page).to have_content  question.title
     expect(page).to have_content  question.body
     expect(page).to have_content  'MyAnswerbody1'

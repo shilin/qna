@@ -1,27 +1,41 @@
 require 'rails_helper'
 
-feature 'User can answer a question', %q{
-In order to give back to community
-As a user
-I want to be able to answer questions
+feature 'Only authenticated user can answer a question', %q{
+  In order to give back to community
+  As a user
+  I want to be able to answer questions
 } do
 
 
-  scenario 'User gives a valid answer to a question' do
-    question = create(:question)
-    visit question_path(question)
-    fill_in 'Body', with: 'MyAnswer'
-    click_on 'Submit'
-    expect(page).to have_content 'Your answer is saved successfully!'
+  context 'Authenticated user' do
+    let(:user){create(:user)}
+
+    before do
+      sign_in(user)
+      question = create(:question)
+      visit question_path(question)
+    end
+
+    scenario 'gives a valid answer to a question' do
+      fill_in 'Body', with: 'Body'
+      click_on 'Submit'
+      expect(page).to have_content 'Your answer is saved successfully!'
+    end
+
+    scenario 'gives an invalid answer to a question' do
+      fill_in 'Body', with: nil
+      click_on 'Submit'
+      expect(page).to have_content 'Failed to save your answer!'
+    end
   end
 
-  scenario 'User gives an invalid answer to a question' do
-    question = create(:question)
-    visit question_path(question)
-    fill_in 'Body', with: nil
-    click_on 'Submit'
-    expect(page).to have_content 'Failed to save your answer!'
+  context 'Unauthenticate user' do
+    scenario 'fails to give a valid answer to a question' do
+      question = create(:question)
+      visit question_path(question)
+      expect(page).to_not have_button 'Submit'
 
+    end
   end
 
 end

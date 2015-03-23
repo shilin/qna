@@ -6,8 +6,9 @@ p= @question.body
   p=  a.body
 
 
-= form_for [@question,@question.answers.new] do |f|
-  = f.label 'body'
-  = f.text_field 'body'
-  = f.submit 'Submit'
+- if current_user
+  = form_for [@question,@question.answers.new] do |f|
+    = f.label 'body'
+    = f.text_field 'body'
+    = f.submit 'Submit'
 

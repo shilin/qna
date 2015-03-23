@@ -7,7 +7,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { get :index}
     it 'populates an array of all questions' do
-      expect(assigns(:questions)).to eq questions
+      expect(assigns(:questions)).to match_array questions
     end
 
     it 'renders index template' do
@@ -21,14 +21,17 @@ RSpec.describe QuestionsController, type: :controller do
 
     before {get :show, id: question}
 
-    it 'fetches question from db' do
+    it 'assigns question to @question' do
+      expect(assigns(:question)).to eq question
+    end
 
-
+    it 'renders show view' do
+      expect(response).to render_template :show
     end
   end
 
   describe 'GET #new' do
-    before {get :new}
+    before {sign_in_user; get :new}
 
     it 'assigns a new Question to question' do
       expect(assigns(:question)).to be_a_new(Question)
@@ -41,31 +44,51 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'POST #create' do
 
+    let(:question) {create(:question)}
     let(:invalid_question) {create(:invalid_question)}
 
-    context 'with valid attributes' do
+    context 'Unauthenticated user' do
+      context 'tries to create a question with valid attributes' do
 
-      it 'saves a question into db' do
-        expect { post :create, question: {title: 'Title', body: 'Body'} }.to change(Question,:count).by(1)
+        it 'fails to save a question into db' do
+          expect { post :create, question: attributes_for(:question) }.
+            to_not change(Question,:count)
+        end
+
+        it 'redirects to index view' do
+          post :create, question: attributes_for(:question)
+          expect(response).to redirect_to new_user_session_path
+        end
       end
-
-      it 'redirects to show view' do
-        post :create, question: {title: 'Title', body: 'Body'}
-        expect(response).to redirect_to question_path(assigns(:question))
-      end
-
     end
 
-    context 'with invalid attributes' do
+    context 'Authenticated user' do
+      before { sign_in_user }
 
-      it 'fails to save a question' do
-        expect {post :create, question: attributes_for(:invalid_question)}.to_not change(Question,:count)
-      end
-      it 're-renders new view' do
-        post :create, question: attributes_for(:invalid_question)
-        expect(response).to render_template :new
+      context 'creates a question with valid attributes' do
+        it 'saves a question into db' do
+          expect { post :create, question: attributes_for(:question) }.
+            to change(Question,:count).by(1)
+        end
+        it 'redirects to show view' do
+          post :create, question: attributes_for(:question)
+          expect(response).to redirect_to question_path(assigns(:question))
+        end
       end
 
+      context 'tries to create a question with invalid attributes' do
+
+        it 'fails to save a question' do
+          expect {post :create, question: attributes_for(:invalid_question)}.
+            to_not change(Question,:count)
+        end
+        it 're-renders new view' do
+          post :create, question: attributes_for(:invalid_question)
+          expect(response).to render_template :new
+        end
+
+
+      end
     end
   end
 end
