@@ -91,4 +91,38 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    let(:question) {create(:question)}
+
+    before {question}
+    context 'Unauthenticated user' do
+      it 'tries to delete a question' do
+        expect {delete :destroy, id: question}.to_not change(Question, :count)
+      end
+      it 'redirects to show path' do
+        delete :destroy, id: question
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'Authenticated user' do
+      it 'tries to delete a question' do
+        sign_in_user
+        expect {delete :destroy, id: question}.to_not change(Question, :count)
+      end
+    end
+
+    context 'Author' do
+      it 'tries to delete his own question' do
+        sign_in_user
+        question.user=@user
+        question.save
+        expect {delete :destroy, id: question}.to change(Question, :count).by(-1)
+      end
+
+    end
+
+  end
+
 end

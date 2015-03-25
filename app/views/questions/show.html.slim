@@ -1,6 +1,8 @@
-p= @question.id
 p= @question.title
-p= @question.body
+
+p
+  => @question.body
+  = link_to 'Delete', question_path(@question), method: :delete
 
 - @question.answers.each do |a|
   p=  a.body

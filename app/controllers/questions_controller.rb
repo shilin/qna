@@ -25,7 +25,21 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def destroy
+    @question = Question.find(params[:id])
+
+    #sleep 15 if  current_user.author_of?(@question)
+      #if current_user.author_of?(@question) and @question.destroy
+      if current_user.author_of?(@question) and @question.destroy
+        flash[:notice] = 'Question has been removed'
+      else
+        flash[:alert] = 'Failed to remove the question'
+      end
+        redirect_to questions_path
+  end
+
   private
+
 
   def question_params
     params.require(:question).permit([:title, :body])
