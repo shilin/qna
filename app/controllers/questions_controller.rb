@@ -1,13 +1,12 @@
 class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:show, :index]
+  before_action :load_question, only: [:show, :destroy]
   def index
     @questions = Question.all
   end
   
   def show
-    @question = Question.find(params[:id])
-    #@answer = @question.answers.new
   end
 
   def new
@@ -26,10 +25,6 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(params[:id])
-
-    #sleep 15 if  current_user.author_of?(@question)
-      #if current_user.author_of?(@question) and @question.destroy
       if current_user.author_of?(@question) and @question.destroy
         flash[:notice] = 'Question has been removed'
       else
@@ -45,6 +40,9 @@ class QuestionsController < ApplicationController
     params.require(:question).permit([:title, :body])
   end
 
+  def load_question
+    @question = Question.find(params[:id])
+  end
 
 
 end

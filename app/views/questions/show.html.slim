@@ -1,11 +1,14 @@
 p= @question.title
 
-p
+p.question
   => @question.body
   = link_to 'Delete', question_path(@question), method: :delete
 
-- @question.answers.each do |a|
-  p=  a.body
+div.answers
+  - @question.answers.each do |a|
+    = div_for a
+      => a.body
+      = link_to 'Delete', question_answer_path(@question,a), method: :delete
 
 
 - if current_user

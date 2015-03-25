@@ -63,4 +63,38 @@ RSpec.describe AnswersController, type: :controller do
     end
 
   end
+
+
+  describe 'DELETE #destroy' do
+    let(:author) {create(:user)}
+    let(:question) {create(:question)}
+    let(:answer) {create(:answer, question: question, user: author)}
+
+    before {answer}
+    context 'Unauthenticated user' do
+      it 'tries to delete an answer' do
+        expect {delete :destroy, id: answer, question_id: question}.to_not change(Answer, :count)
+      end
+      it 'redirects to sign_in' do
+        delete :destroy, id: answer, question_id: question
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'Authenticated user' do
+      it 'tries to delete an answer' do
+        sign_in_user
+        expect {delete :destroy, id: answer, question_id: question}.to_not change(Answer, :count)
+      end
+    end
+
+    context 'Author' do
+      it 'tries to delete his own answer' do
+        sign_in author
+        expect {delete :destroy, id: answer, question_id: question}.to change(Answer, :count).by(-1)
+      end
+
+    end
+
+  end
 end
