@@ -13,11 +13,14 @@ div.answers
       => a.body
       - if current_user.try(:author_of?, a)
         = link_to 'Delete', question_answer_path(@question,a), method: :delete
-
+p
 
 - if current_user
-  = form_for [@question, Answer.new] do |f|
-    = f.label 'body'
-    = f.text_field 'body'
+  p Ask a question:
+  = form_for [@question, Answers.new] do |f|
+    div.form-group
+      = f.label 'body'
+      = f.text_area 'body', {class: 'form-control'}
+      = link_to 'Delete', question_answer_path(@question,a), method: :delete
     = f.submit 'Submit'
 

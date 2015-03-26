@@ -34,6 +34,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'slim-rails'
 gem 'devise'
+
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
+
 group :test do
   gem 'shoulda-matchers'
   gem 'capybara'

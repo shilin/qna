@@ -6,8 +6,13 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track' => true 
     = csrf_meta_tags 
   body
-    p.notice = notice
-    p.alert = alert 
+    - if notice
+      p.alert.alert-success = notice
+    - if alert
+      p.alert.alert-danger = alert
 
-    div.authentication = render "shared/devise_links" 
-    = yield
+    div.container
+      div.row
+        div.authentication = render "shared/devise_links"
+      div.row
+        = yield
