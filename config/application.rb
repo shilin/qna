@@ -32,12 +32,12 @@ module Qna
     config.active_record.raise_in_transactional_callbacks = true
     config.generators do |g|
       g.test_framework :rspec,
-                        fixtures: true,
-                        view_spec: false,
-                        helper_spec: false,
-                        routing_spec: false,
-                        request_spec: false,
-                        controller_spec: true
+                       fixtures: true,
+                       view_spec: false,
+                       helper_spec: false,
+                       routing_spec: false,
+                       request_spec: false,
+                       controller_spec: true
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
   end

@@ -7,12 +7,7 @@ class User < ActiveRecord::Base
   has_many :questions
   has_many :answers
 
-
   def author_of?(thing)
-    thing.user.eql? self
+    thing.user_id.eql? id
   end
-
-  private
-
-
 end

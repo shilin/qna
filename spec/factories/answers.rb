@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   sequence :body do |n|
     "AnswerBody#{n}"
   end
@@ -13,5 +12,4 @@ FactoryGirl.define do
     body nil
     question
   end
-
 end

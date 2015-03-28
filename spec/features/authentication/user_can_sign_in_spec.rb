@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-feature 'User can sign in', %q{
+feature 'User can sign in', %q(
 
   In order to ask questions and view answers
   As a user
   I want to be able to sign in
-} do
 
-  given(:user) {create(:user) }
+) do
+  given(:user) { create(:user) }
 
   scenario 'Registered user tries to sign in' do
     sign_in(user)
@@ -16,7 +16,6 @@ feature 'User can sign in', %q{
   end
 
   scenario 'Non-registered user tries to sign in' do
-
     visit root_path
     click_on 'Log in'
     fill_in 'user_email', with: 'wrong@test.com'
@@ -25,6 +24,4 @@ feature 'User can sign in', %q{
 
     expect(page).to have_content 'Invalid email or password'
   end
-
-
 end

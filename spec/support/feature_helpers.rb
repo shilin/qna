@@ -1,5 +1,4 @@
 module FeatureHelpers
-
   def sign_in(user)
     visit root_path
     click_on 'Log in'
@@ -7,5 +6,4 @@ module FeatureHelpers
     fill_in 'Password', with: user.password
     click_on 'Log in'
   end
-
 end
