@@ -7,26 +7,19 @@ RSpec.describe User, type: :model do
   it { should have_many :questions }
   it { should have_many :answers }
 
-  let!(:user) { create(:user) }
+  let(:author) { create(:user) }
+  let(:not_author) { create(:user) }
+  let(:question) { create(:question, user: author) }
+  let(:answer) { create(:answer, user: author) }
 
-  before do
-    @thing = Object.new
 
-    @thing.class_eval { attr_writer :user }
-
-    def @thing.user_id
-      @user.id
-    rescue
-      nil
-    end
+  it 'checks if an author passes author_of? method for question and answer' do
+    expect(author.author_of?(question)).to eq true
+    expect(author.author_of?(answer)).to eq true
   end
 
-  it 'checks if an author passes author_of? method' do
-    @thing.user = user
-    expect(user.author_of?(@thing)).to eq true
-  end
-
-  it 'checks if not an author fails author_of? method' do
-    expect(user.author_of?(@thing)).to eq false
+  it 'checks if not an author fails author_of? method for question and answer' do
+    expect(not_author.author_of?(question)).to eq false
+    expect(not_author.author_of?(answer)).to eq false
   end
 end
