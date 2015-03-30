@@ -1,23 +1,38 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
-    before { get :index}
+    before { get :index }
     it 'populates an array of all questions' do
-      expect(assigns(:questions)).to eq questions
+      expect(assigns(:questions)).to match_array questions
     end
 
     it 'renders index template' do
       expect(response).to render_template :index
     end
+  end
 
+  describe 'GET #show' do
+    let(:question) { create(:question) }
+
+    before { get :show, id: question }
+
+    it 'assigns question to @question' do
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
   end
 
   describe 'GET #new' do
-    before {get :new}
+    before do
+      sign_in_user
+      get :new
+    end
 
     it 'assigns a new Question to question' do
       expect(assigns(:question)).to be_a_new(Question)
@@ -29,37 +44,83 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    let(:question) { create(:question) }
+    let(:invalid_question) { create(:invalid_question) }
 
-    let(:invalid_question) {create(:invalid_question)}
+    context 'Unauthenticated user' do
+      context 'tries to create a question with valid attributes' do
+        it 'fails to save a question into db' do
+          expect { post :create, question: attributes_for(:question) }
+            .to_not change(Question, :count)
+        end
 
-    context 'with valid attributes' do
-
-      it 'saves a question into db' do
-        expect { post :create, question: {title: 'Title', body: 'Body'} }.to change(Question,:count).by(1)
+        it 'redirects to index view' do
+          post :create, question: attributes_for(:question)
+          expect(response).to redirect_to new_user_session_path
+        end
       end
-
-      it 'redirects to show view' do
-        post :create, question: {title: 'Title', body: 'Body'}
-        expect(response).to redirect_to question_path(assigns(:question))
-      end
-
     end
 
-    context 'with invalid attributes' do
+    context 'Authenticated user' do
+      before { sign_in_user }
 
-      it 'fails to save a question' do
-        expect {post :create, question: attributes_for(:invalid_question)}.to_not change(Question,:count)
+      context 'creates a question with valid attributes' do
+        it 'saves a question into db' do
+          expect { post :create, question: attributes_for(:question) }
+            .to change(Question, :count).by(1)
+        end
+
+        it 'makes current user an owner of the saved question' do
+          expect { post :create, question: attributes_for(:question) }
+            .to change(@user.questions, :count).by(1)
+        end
+
+        it 'redirects to show view' do
+          post :create, question: attributes_for(:question)
+          expect(response).to redirect_to question_path(assigns(:question))
+        end
       end
 
-      it 're-renders new view' do
-        post :create, question: attributes_for(:invalid_question)
-        expect(response).to render_template :new
+      context 'tries to create a question with invalid attributes' do
+        it 'fails to save a question' do
+          expect { post :create, question: attributes_for(:invalid_question) }
+            .to_not change(Question, :count)
+        end
+        it 're-renders new view' do
+          post :create, question: attributes_for(:invalid_question)
+          expect(response).to render_template :new
+        end
       end
-
     end
-
-
   end
 
+  describe 'DELETE #destroy' do
+    let(:question) { create(:question) }
 
+    before { question }
+    context 'Unauthenticated user' do
+      it 'tries to delete a question' do
+        expect { delete :destroy, id: question }.to_not change(Question, :count)
+      end
+      it 'redirects to show path' do
+        delete :destroy, id: question
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'Authenticated user' do
+      it 'tries to delete a question' do
+        sign_in_user
+        expect { delete :destroy, id: question }.to_not change(Question, :count)
+      end
+    end
+
+    context 'Author' do
+      it 'tries to delete his own question' do
+        sign_in_user
+        question.update(user: @user)
+        expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+      end
+    end
+  end
 end

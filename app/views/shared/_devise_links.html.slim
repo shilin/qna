@@ -1,0 +1,8 @@
+- if controller_name != 'sessions' and not current_user
+  = link_to "Log in", new_user_session_path
+
+- if controller_name != 'registrations' and not current_user
+  = link_to " Sign up", new_user_registration_path
+
+- if current_user
+  = link_to "Sign out", destroy_user_session_path, :method => :delete
