@@ -8,6 +8,6 @@ class User < ActiveRecord::Base
   has_many :answers
 
   def author_of?(thing)
-    thing.user_id.eql? id
+    thing.user_id == id
   end
 end
