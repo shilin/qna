@@ -19,7 +19,7 @@ feature 'Only authenticated user can answer a question', %q(
 
     before do
       sign_in(user)
-      question = create(:question)
+      question = create(:question, user: user)
       visit question_path(question)
     end
 

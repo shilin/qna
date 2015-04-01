@@ -17,10 +17,9 @@ p
 
 - if current_user
   p Ask a question:
-  = form_for [@question, Answers.new] do |f|
+  = form_for [@question, Answer.new] do |f|
     div.form-group
       = f.label 'body'
       = f.text_area 'body', {class: 'form-control'}
-      = link_to 'Delete', question_answer_path(@question,a), method: :delete
     = f.submit 'Submit'
 
