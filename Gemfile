@@ -45,6 +45,7 @@ group :test do
 end
 group :development do
   gem 'rubocop'
+  gem 'guard-rspec', require: false
 end
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
