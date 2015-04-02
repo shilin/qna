@@ -5,11 +5,10 @@ feature 'User can view a question and all its answers', %q(
   As a user
   I want to be able to view a question and all its answers
     ) do
-
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given!(:answer1) { create(:answer, question: question, user: user)}
-  given!(:answer2) { create(:answer, question: question, user: user)}
+  given!(:answer1) { create(:answer, question: question, user: user) }
+  given!(:answer2) { create(:answer, question: question, user: user) }
 
   scenario 'User visits a question page' do
     visit question_path(question)

@@ -12,7 +12,6 @@ RSpec.describe User, type: :model do
   let(:question) { create(:question, user: author) }
   let(:answer) { create(:answer, user: author) }
 
-
   it 'checks if an author passes author_of? method for question and answer' do
     expect(author.author_of?(question)).to eq true
     expect(author.author_of?(answer)).to eq true

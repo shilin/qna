@@ -38,8 +38,6 @@ feature 'Only authenticated user can answer a question', %q(
       within('.answers_list') do
         expect(page).to have_content 'My coolest answer'
       end
-      sleep 4
-      save_and_open_page
     end
   end
 end
