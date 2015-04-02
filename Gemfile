@@ -42,15 +42,18 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'launchy'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end
+
 group :development do
   gem 'rubocop'
   gem 'guard-rspec', require: false
 end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   # Access an IRB console on exception pages or by using <%= console %> in views

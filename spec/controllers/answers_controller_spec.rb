@@ -19,29 +19,29 @@ RSpec.describe AnswersController, type: :controller do
       context 'creates an answer with valid attributes' do
         it 'saves answer that belongs to the question' do
           expect do
-            post :create, answer: attributes_for(:answer), question_id: question
+            post :create, answer: attributes_for(:answer), question_id: question, format: :js
           end.to change(question.answers, :count).by(1)
         end
 
         it 'saves answer that belongs to the current user' do
           expect do
-            post :create, answer: attributes_for(:answer), question_id: question
+            post :create, answer: attributes_for(:answer), question_id: question, format: :js
           end.to change(@user.answers, :count).by(1)
         end
 
-        it 'redirects to the question' do
-          post :create, answer: attributes_for(:answer), question_id: question
-          expect(response).to redirect_to question
+        it 'adds the answer to the question show view' do
+          post :create, answer: attributes_for(:answer), question_id: question, format: :js
+          expect(response.status).to eq 200
         end
       end
 
       context 'tries to create an answer with invalid attributes' do
         it 'fails to save an invalid answer into db' do
-          expect { post :create, answer: attributes_for(:invalid_answer), question_id: question }.to_not change(Answer, :count)
+          expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }.to_not change(Answer, :count)
         end
-        it 're-renders new template' do
-          post :create, answer: attributes_for(:invalid_answer), question_id: question
-          expect(response).to render_template :new
+        it 'renders create.js template' do
+          post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js
+          expect(response).to render_template 'create'
         end
       end
     end
@@ -50,12 +50,12 @@ RSpec.describe AnswersController, type: :controller do
       context 'tries to create an answer with valid attributes' do
         it 'fails to save the answer that belongs to the question' do
           expect do
-            post :create, answer: attributes_for(:answer), question_id: question
+            post :create, answer: attributes_for(:answer), question_id: question, format: :js
           end.to_not change(question.answers, :count)
         end
-        it 'redirects to sign in page' do
-          post :create, answer: attributes_for(:answer), question_id: question
-          expect(response).to redirect_to new_user_session_path
+        it 'responses with not authorized status' do
+          post :create, answer: attributes_for(:answer), question_id: question, format: :js
+          expect(response.status).to eq 401
         end
       end
     end

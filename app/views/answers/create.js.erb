@@ -1,0 +1,4 @@
+$('.answers_list').append('<%= j render "shared/answer_item", {answer: @answer} if @answer.persisted? -%>');
+$('.alerts').html('<%= j render 'shared/alerts' -%>');
+$('#answer_body').val('');
+
