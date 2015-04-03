@@ -1,4 +1,0 @@
-ul.answers_list
-  - @question.answers.each do |a|
-    - unless a.new_record?
-        = render 'shared/answer_item', {:answer => a}

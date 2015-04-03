@@ -1,4 +1,0 @@
-= content_tag_for :li, answer
-  => answer.body
-  - if current_user.try(:author_of?, answer)
-    = link_to 'Delete', question_answer_path(@question, answer), method: :delete
