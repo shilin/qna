@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+Capybara.javascript_driver = :webkit
+
 RSpec.configure do |config|
 
   config.use_transactional_fixtures = false
