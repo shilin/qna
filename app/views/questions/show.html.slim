@@ -7,17 +7,15 @@
   p
     = @question.body
 
-div.answers
-  - @question.answers.each do |a|
-    = div_for a
-      => a.body
-      - if current_user.try(:author_of?, a)
-        = link_to 'Delete', question_answer_path(@question,a), method: :delete
-
+ul.answers_list
+  = render @question.answers
+p
 
 - if current_user
-  = form_for [@question, Answer.new] do |f|
-    = f.label 'body'
-    = f.text_field 'body'
+  p Give an answer:
+  = form_for [@question, Answer.new], remote: true do |f|
+    div.form-group
+      = f.label 'body'
+      = f.text_area 'body', {class: 'form-control'}
     = f.submit 'Submit'
 

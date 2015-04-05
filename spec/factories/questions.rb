@@ -14,5 +14,4 @@ FactoryGirl.define do
     body nil
     user
   end
-
 end
