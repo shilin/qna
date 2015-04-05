@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'Only authenticated user can answer a question', %q(
   In order to give back to community
