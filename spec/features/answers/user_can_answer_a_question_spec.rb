@@ -28,6 +28,7 @@ feature 'Only authenticated user can answer a question', %q(
       click_on 'Submit'
 
       expect(page).to have_content 'Failed to save your answer!'
+      expect(page).to have_content "Body can't be blank"
     end
 
     scenario 'gives a valid answer to a question', js: true do

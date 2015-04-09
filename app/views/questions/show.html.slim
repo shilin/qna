@@ -12,6 +12,7 @@ ul.answers_list
 p
 
 - if current_user
+  .answer-errors
   p Give an answer:
   = form_for [@question, Answer.new], remote: true do |f|
     div.form-group
