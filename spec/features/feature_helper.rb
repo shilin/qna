@@ -3,7 +3,6 @@ require 'rails_helper'
 Capybara.javascript_driver = :webkit
 
 RSpec.configure do |config|
-
   config.use_transactional_fixtures = false
 
   config.include FeatureHelpers, type: :feature
@@ -27,5 +26,4 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-
 end

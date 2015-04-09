@@ -5,8 +5,6 @@ In order to fix answers
 As an author
 I should be able to edit my answer
 ) do
-
-  
   let(:user) { create(:user) }
   let(:author) { create(:user) }
   let(:question) { create(:question, user: user) }
@@ -20,7 +18,10 @@ I should be able to edit my answer
   scenario 'Authenticated user tries to edit another user answer' do
     sign_in user
     visit question_path(question)
-    expect(page).to_not have_link 'Edit'
+
+    within('.answer') do
+      expect(page).to_not have_link 'Edit'
+    end
   end
 
   context 'Author' do
@@ -37,7 +38,6 @@ I should be able to edit my answer
 
     scenario 'edits his own answer', js: true do
       within("#answer_#{answer.id}") do
-        save_and_open_page
         click_on 'Edit'
         fill_in 'answer_body', with: 'my coolest answer'
         click_on 'Submit'
@@ -47,7 +47,5 @@ I should be able to edit my answer
       expect(page).to_not have_content answer.body
       expect(page).to_not have_selector "#answer_#{answer.id} textarea"
     end
-
   end
-
 end

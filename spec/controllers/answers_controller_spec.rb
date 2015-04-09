@@ -37,8 +37,8 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'tries to create an answer with invalid attributes' do
         it 'fails to save an invalid answer into db' do
-          expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }.
-            to_not change(Answer, :count)
+          expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }
+            .to_not change(Answer, :count)
         end
         it 'renders create.js template' do
           post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js
@@ -108,8 +108,8 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'Unauthenticated user' do
       it 'tries to edit an answer' do
-        expect { patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js }.
-          to_not change(Answer, :count)
+        expect { patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js }
+          .to_not change(Answer, :count)
       end
       it 'responses you are not authorized' do
         patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
@@ -117,13 +117,12 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-
     context 'Authenticated user' do
       before { sign_in_user }
 
       it 'tries to update not his answer' do
-        expect { patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js }.
-          to_not change(Answer, :count)
+        patch :update, id: answer, question_id: question, answer: { body: 'New answer body' }, format: :js
+        expect(assigns(:answer).body).to_not eq 'New answer body'
       end
       it 'tries to update not his answer and update template is rendered' do
         patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
@@ -140,12 +139,12 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'assigns the requested answer to @answer' do
-         patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-         expect(assigns(:answer)).to eq answer
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:answer)).to eq answer
       end
 
       it 'changes answer attributes' do
-        patch :update, id: answer, question_id: question, answer: {body: 'New answer body'}, format: :js
+        patch :update, id: answer, question_id: question, answer: { body: 'New answer body' }, format: :js
         expect(assigns(:answer).body).to eq 'New answer body'
       end
 
@@ -153,9 +152,6 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
         expect(response).to render_template :update
       end
-
-
     end
   end
-
 end

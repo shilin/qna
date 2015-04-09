@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
-  before_action :load_answer, only: [:show, :destroy]
+  before_action :load_answer, only: [:show, :update, :destroy]
 
   def create
     @question = Question.find(params[:question_id])
@@ -18,15 +18,16 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer = Answer.find(params[:id])
-    @answer.update(answer_params)
-    @question = @answer.question
+    if current_user.try(:author_of?, @answer)
+      @answer.update(answer_params)
+      @question = @answer.question
+    end
   end
 
   def destroy
     @question = @answer.question
 
-    if current_user.author_of?(@answer) && @answer.destroy
+    if current_user.try(:author_of?, @answer) && @answer.destroy
       flash[:notice] = 'Answer has been removed'
     else
       flash[:alert] = 'Failed to remove the answer'
