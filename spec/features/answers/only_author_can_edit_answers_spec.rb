@@ -39,6 +39,8 @@ I should be able to edit my answer
     scenario 'edits his own answer', js: true do
       within("#answer_#{answer.id}") do
         click_on 'Edit'
+      end
+      within("form#edit_answer_#{answer.id}") do
         fill_in 'answer_body', with: 'my coolest answer'
         click_on 'Submit'
       end

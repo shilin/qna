@@ -70,33 +70,33 @@ RSpec.describe AnswersController, type: :controller do
     before { answer }
     context 'Unauthenticated user' do
       it 'tries to delete an answer' do
-        expect { delete :destroy, id: answer, question_id: question }.to_not change(Answer, :count)
+        expect { delete :destroy, id: answer, question_id: question, format: :js }.to_not change(Answer, :count)
       end
-      it 'redirects to sign_in' do
-        delete :destroy, id: answer, question_id: question
-        expect(response).to redirect_to new_user_session_path
+      it 'responses with non-authorized status' do
+        delete :destroy, id: answer, question_id: question, format: :js
+        expect(response.status).to eq 401
       end
     end
 
     context 'Authenticated user' do
       it 'tries to delete an answer' do
         sign_in_user
-        expect { delete :destroy, id: answer, question_id: question }.to_not change(Answer, :count)
+        expect { delete :destroy, id: answer, question_id: question, format: :js }.to_not change(Answer, :count)
       end
       it 'tries to delete an answer and redirected' do
       end
     end
 
     context 'Author' do
-      it 'tries to delete his own answer' do
+      it 'tries to delete his own answer and answer deleted' do
         sign_in author
-        expect { delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, id: answer, question_id: question, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'tries to delete his own answer and redirected to the question' do
+      it 'tries to delete his own answer and status is success' do
         sign_in author
-        delete :destroy, id: answer, question_id: question
-        expect(response).to redirect_to assigns(:question)
+        delete :destroy, id: answer, question_id: question, format: :js
+        expect(response.status).to eq 200
       end
     end
   end

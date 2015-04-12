@@ -21,18 +21,18 @@
 
 $(document).ready(function() {
 
-  //answer form handler
-  $('body').on('click', 'a.edit-answer-link', function(e) {
-   e.preventDefault();
-   $(this).hide();
-   answerId = $(this).data('answerId');
-   $('form#edit_answer_' + answerId).show();
-  });
-
-  //question form handler
-  $('body').on('click', 'a.edit-question-link', function(e) {
-   e.preventDefault();
-   $(this).hide();
-   $('form.edit_question').show();
-  });
+//  //answer form handler
+//  $('body').on('click', 'a.edit-answer-link', function(e) {
+//   e.preventDefault();
+//   $(this).hide();
+//   answerId = $(this).data('answerId');
+//   $('form#edit_answer_' + answerId).show();
+//  });
+//
+//  //question form handler
+//  $('body').on('click', 'a.edit-question-link', function(e) {
+//   e.preventDefault();
+//   $(this).hide();
+//   $('form.edit_question').show();
+//  });
 });

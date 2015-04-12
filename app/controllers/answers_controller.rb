@@ -33,7 +33,6 @@ class AnswersController < ApplicationController
       flash[:alert] = 'Failed to remove the answer'
     end
 
-    redirect_to question_path(@question)
   end
 
   private
