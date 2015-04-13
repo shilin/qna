@@ -15,7 +15,7 @@ feature 'Only authenticated user can answer a question', %q(
   end
 
   context 'Authenticated user' do
-    let(:user) { create(:user) }
+    given(:user) { create(:user) }
 
     before do
       sign_in(user)

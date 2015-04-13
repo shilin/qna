@@ -1,13 +1,13 @@
 require_relative '../feature_helper'
 
-RSpec.describe 'Only author can edit questions', %q(
+feature 'Only author can edit questions', %q(
 In order to rephrase question
 As an author
 I should be able to edit my question
 ) do
-  let(:user) { create(:user) }
-  let(:author) { create(:user) }
-  let(:question) { create(:question, user: author) }
+  given(:user) { create(:user) }
+  given(:author) { create(:user) }
+  given(:question) { create(:question, user: author) }
 
   scenario 'Unauthenticated user tries to edit an question' do
     visit question_path(question)

@@ -7,8 +7,8 @@ feature 'Only authenticated user can create a question', %q(
   I want to be able to create questions
 
 ) do
-  let(:user) { create(:user) }
-  let(:question) { create(:question) }
+  given(:user) { create(:user) }
+  given(:question) { create(:question) }
 
   context 'Authenticated user' do
     before do

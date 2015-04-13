@@ -41,7 +41,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit([:title, :body])
+    params.require(:question).permit([:title, :body, :best_answer_id])
   end
 
   def load_question

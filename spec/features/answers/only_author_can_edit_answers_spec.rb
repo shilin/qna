@@ -1,14 +1,14 @@
 require_relative '../feature_helper'
 
-RSpec.describe 'Only author can edit answers', %q(
+feature 'Only author can edit answers', %q(
 In order to fix answers
 As an author
 I should be able to edit my answer
 ) do
-  let(:user) { create(:user) }
-  let(:author) { create(:user) }
-  let(:question) { create(:question, user: user) }
-  let!(:answer) { create(:answer, question: question, user: author) }
+  given(:user) { create(:user) }
+  given(:author) { create(:user) }
+  given(:question) { create(:question, user: user) }
+  given!(:answer) { create(:answer, question: question, user: author) }
 
   scenario 'Unauthenticated user tries to edit an answer' do
     visit question_path(question)

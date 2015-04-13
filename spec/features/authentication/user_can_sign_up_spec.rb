@@ -6,7 +6,7 @@ feature 'User can sign up', %q(
   I want to be able to sign up
 
 ) do
-  let(:user) { create(:user) }
+  given(:user) { create(:user) }
 
   scenario 'Non-registered user signs up' do
     visit root_path
