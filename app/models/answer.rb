@@ -1,7 +1,14 @@
 class Answer < ActiveRecord::Base
-  has_one :grateful_question, foreign_key: :best_answer_id, class_name: Question
   belongs_to :question
   belongs_to :user
 
   validates :body, :user, presence: true
+
+  before_save :ensure_no_best_answers_left, if: ->() { best_changed? }
+
+  protected
+
+  def ensure_no_best_answers_left
+    Answer.where(question_id: question_id, best: true).update_all(best: false)
+  end
 end

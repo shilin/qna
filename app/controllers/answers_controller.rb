@@ -1,8 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
-  before_action :load_answer, only: [:show, :update, :destroy]
-  before_action :load_question, only: [:update, :create]
-  before_action :discard_not_question_authors_calling_answer_best, only: [:update, :create]
+  before_action :load_answer, only: [:show, :update, :update_best, :destroy]
+  before_action :load_question, only: [:update, :update_best, :create]
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -18,11 +17,14 @@ class AnswersController < ApplicationController
   def show
   end
 
+  def update_best
+    @answer.update(best: answer_params[:best]) if current_user.author_of?(@question)
+    render :update
+  end
+
   def update
-    if current_user.try(:author_of?, @answer)
-      @answer.update(answer_params)
-      @question = @answer.question
-    end
+    @answer.update(answer_params) if current_user.author_of?(@answer)
+    # @question = @answer.question
   end
 
   def destroy
@@ -33,13 +35,12 @@ class AnswersController < ApplicationController
     else
       flash[:alert] = 'Failed to remove the answer'
     end
-
   end
 
   private
 
   def answer_params
-    params.require(:answer).permit([:body, :grateful_question_id])
+    params.require(:answer).permit([:body, :best])
   end
 
   def load_answer
@@ -48,10 +49,5 @@ class AnswersController < ApplicationController
 
   def load_question
     @question = Question.find(params[:question_id])
-  end
-
-  def discard_not_question_authors_calling_answer_best
-    answer_params.delete(:best) unless current_user.try(:author_of?, @question)
-    @question.best_answer_id = answer_params.delete(:grateful_question_id)
   end
 end

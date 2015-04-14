@@ -154,4 +154,59 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update_best' do
+    let(:question_author) { create(:user) }
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: question_author) }
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    context 'Unauthenticated user' do
+      it 'tries to make an answer to be best' do
+        expect { patch :update_best, id: answer, question_id: question, answer: { best: true }, format: :js }
+          .to_not change(answer, :best)
+      end
+      it 'responses you are not authorized' do
+        patch :update_best, id: answer, question_id: question, answer: { best: true }, format: :js
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'Authenticated user' do
+      before { sign_in user }
+
+      it 'tries to make an answer best' do
+        expect { patch :update_best, id: answer, question_id: question, answer: { best: true }, format: :js }
+          .to_not change(answer, :best)
+      end
+      it 'tries to make an answer to be best and update template renders' do
+        patch :update_best, id: answer, question_id: question, answer: { best: true }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'Author of a related question' do
+      before { sign_in question_author }
+
+      it 'assigns @question' do
+        patch :update_best, id: answer, question_id: question, answer: { best: true }, format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'assigns the requested answer to @answer' do
+        patch :update_best, id: answer, question_id: question, answer: { best: true }, format: :js
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'makes an answer to be the best' do
+        patch :update_best, id: answer, question_id: question, answer: { best: true }, format: :js
+        expect(assigns(:answer).best).to eq true
+      end
+
+      it 'renders update template' do
+        patch :update_best, id: answer, question_id: question, answer: { best: true }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+  end
 end
