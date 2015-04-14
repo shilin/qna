@@ -1,0 +1,10 @@
+$('.alerts').html('<%= j render 'shared/alerts' %>')
+<% if @question.errors.present? %>
+    <% @question.errors.full_messages.each do |message| %>
+      $('.question-errors').html('<%= j message %>')
+    <% end %>
+<% else %>
+  $('.question-errors').html('');
+  $('.question').replaceWith('<%= j render @question  %>');
+  $('.answers_list').html('<%= j render @question.answers.order(best: :desc) %>');
+<% end %>

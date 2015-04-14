@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'User can sign out', %q(
   In order to protect my privacy
@@ -6,7 +6,7 @@ feature 'User can sign out', %q(
   I want  be able to sign out
 
 ) do
-  let(:user) { create :user }
+  given(:user) { create :user }
   scenario 'Logged in user signs out' do
     sign_in(user)
 

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'User can see questions list', %q(
 In order to find answers to related question

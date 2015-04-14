@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'Only authenticated user can answer a question', %q(
   In order to give back to community
@@ -15,7 +15,7 @@ feature 'Only authenticated user can answer a question', %q(
   end
 
   context 'Authenticated user' do
-    let(:user) { create(:user) }
+    given(:user) { create(:user) }
 
     before do
       sign_in(user)
@@ -28,6 +28,7 @@ feature 'Only authenticated user can answer a question', %q(
       click_on 'Submit'
 
       expect(page).to have_content 'Failed to save your answer!'
+      expect(page).to have_content "Body can't be blank"
     end
 
     scenario 'gives a valid answer to a question', js: true do

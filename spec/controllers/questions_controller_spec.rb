@@ -123,4 +123,67 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    let(:author) { create(:user) }
+    let!(:question) { create(:question, user: author) }
+
+    context 'Unauthenticated user' do
+      it 'does not assigns @question' do
+        patch :update, id: question, question: { title: 'New question title', body: 'New question body' }, format: :js
+        expect(assigns(:question)).to be_nil
+      end
+      it 'does not update attributes' do
+        patch :update, id: question, question: { title: 'New question title', body: 'New question body' }, format: :js
+        expect(question.title).to_not eq 'New question title'
+        expect(question.body).to_not eq 'New question body'
+      end
+      it 'responses you are not authorized' do
+        patch :update, id: question, question: attributes_for(:question), format: :js
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'Authenticated user' do
+      before { sign_in_user }
+
+      it 'assigns @question' do
+        patch :update, id: question, question: { title: 'New question title', body: 'New question body' }, format: :js
+        expect(assigns(:question)).to eq question
+      end
+      it 'does not update attributes' do
+        patch :update, id: question, question: { title: 'New question title', body: 'New question body' }, format: :js
+        expect(assigns(question.title)).to_not eq 'New question title'
+        expect(assigns(question.body)).to_not eq 'New question body'
+      end
+      it 'tries to update not his question' do
+        expect { patch :update, id: question, question: attributes_for(:question), format: :js }
+          .to_not change(Question, :count)
+      end
+      it 'tries to update not his question and update template is rendered' do
+        patch :update, id: question, question: attributes_for(:question), format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'Author' do
+      before { sign_in author }
+
+      it 'assigns the requested question to @question' do
+        patch :update, id: question, question_id: question, question: attributes_for(:question), format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'changes question attributes' do
+        patch :update, id: question, question: { title: 'New question title', body: 'New question body' }, format: :js
+        expect(assigns(:question).title).to eq 'New question title'
+        expect(assigns(:question).body).to eq 'New question body'
+      end
+
+      it 'renders update template' do
+        patch :update, id: question, question: { title: 'New question title', body: 'New question body' }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+  end
 end

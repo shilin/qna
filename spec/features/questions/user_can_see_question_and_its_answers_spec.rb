@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'User can view a question and all its answers', %q(
   In order to get info from a question and its answers

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'Only author can delete answer', %q(
   In order to fix things
@@ -11,7 +11,7 @@ feature 'Only author can delete answer', %q(
   given(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, user: author) }
 
-  scenario 'Not an author tries to delete an answer' do
+  scenario 'Not an author tries to delete an answer', js: true do
     sign_in(not_author)
 
     visit question_path(question)
@@ -20,7 +20,7 @@ feature 'Only author can delete answer', %q(
     end
   end
 
-  scenario 'Author deletes his own answer' do
+  scenario 'Author deletes his own answer', js: true do
     sign_in(author)
 
     visit question_path(question)
