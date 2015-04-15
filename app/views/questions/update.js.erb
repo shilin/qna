@@ -6,5 +6,5 @@ $('.alerts').html('<%= j render 'shared/alerts' %>')
 <% else %>
   $('.question-errors').html('');
   $('.question').replaceWith('<%= j render @question  %>');
-  $('.answers_list').html('<%= j render @question.answers.order(best: :desc) %>');
+  $('.answers_list').html('<%= j render @question.answers.best_first %>');
 <% end %>

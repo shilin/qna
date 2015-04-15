@@ -6,6 +6,8 @@ class Answer < ActiveRecord::Base
 
   before_save :ensure_no_best_answers_left, if: ->() { best_changed? }
 
+  scope :best_first, lambda { order('best DESC') }
+
   protected
 
   def ensure_no_best_answers_left
