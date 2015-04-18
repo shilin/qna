@@ -2,7 +2,7 @@
 
 
 ul.answers_list
-  = render @question.answers.order(best: :desc)
+  = render @question.answers.best_first
 p
 
 - if current_user

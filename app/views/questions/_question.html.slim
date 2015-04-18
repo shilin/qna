@@ -7,6 +7,10 @@
   p
     = question.body
 
+  p
+    ul
+      - question.attachments.each do |a|
+        li  = link_to a.file.file.filename, a.file.url
   .question-errors
   p
     = form_for question, remote: true do |f|
@@ -15,4 +19,4 @@
         = f.text_field 'title', {class: 'form-control'}
         = f.label 'body', 'question body'
         = f.text_area 'body', {class: 'form-control'}
-      = f.submit 'Submit'
+        = f.submit 'Submit'

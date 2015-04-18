@@ -37,6 +37,7 @@ gem 'devise'
 
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
+gem 'carrierwave'
 
 group :test do
   gem 'shoulda-matchers'
