@@ -10,7 +10,7 @@
   p
     ul
       - question.attachments.each do |a|
-        li  = link_to a.file.file.filename, a.file.url
+        li  = link_to a.file.filename, a.file.url
   .question-errors
   p
     = form_for question, remote: true do |f|
