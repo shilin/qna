@@ -39,6 +39,7 @@ gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'carrierwave'
 gem 'remotipart'
+gem 'nested_form'
 
 group :test do
   gem 'shoulda-matchers'
