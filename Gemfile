@@ -38,6 +38,7 @@ gem 'devise'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'carrierwave'
+gem 'remotipart'
 
 group :test do
   gem 'shoulda-matchers'

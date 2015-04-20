@@ -6,6 +6,12 @@ class QuestionsController < ApplicationController
   end
 
   def show
+
+    #@question.attachments.build
+    @answer = @question.answers.build
+    @question.answers.each do |a|
+      a.attachments.build
+    end
   end
 
   def new

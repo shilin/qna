@@ -53,7 +53,6 @@ feature 'User can add files to his question', %q(
       attach_file 'file', "#{Rails.root}/spec/spec_helper.rb"
       click_on 'Submit'
 
-      save_and_open_page
       expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
     end
   end

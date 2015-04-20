@@ -8,9 +8,12 @@ p
 - if current_user
   .answer-errors
   p Give an answer:
-  = form_for [@question, Answer.new], remote: true do |f|
+  = form_for [@question, @answer], remote: true do |f|
     div.form-group
       = f.label 'body'
       = f.text_area 'body', {class: 'form-control'}
-    = f.submit 'Submit'
+      = f.fields_for(:attachments) do |a|
+        = a.label 'file', 'Attach file'
+        = a.file_field  'file'
+      = f.submit 'Submit'
 
