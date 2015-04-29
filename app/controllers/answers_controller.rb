@@ -4,14 +4,15 @@ class AnswersController < ApplicationController
   before_action :load_question, only: [:update, :update_best, :create]
 
   def create
-    @answer = @question.answers.build(answer_params)
-    @answer.user = current_user
+    @answer = @question.answers.build(answer_params.merge(user: current_user))
+    @new_answer = @question.answers.build
 
     if @answer.save
       flash[:notice] = 'Your answer is saved successfully!'
     else
       flash[:alert] = 'Failed to save your answer!'
     end
+    
   end
 
   def show

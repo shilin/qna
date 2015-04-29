@@ -32,14 +32,6 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
-    it 'adds new attachment to @answer' do
-      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
-    end
-
-    it 'adds new attachment to every related answer' do
-      expect(assigns(:question).answers.first.attachments.first).to be_a_new(Attachment)
-    end
-
   end
 
   describe 'GET #new' do

@@ -1,0 +1,6 @@
+- if f.object.persisted?
+  = f.label :file, f.object.file.filename
+- else
+  = f.label :file, 'Attach file'
+= f.file_field  :file
+= f.link_to_remove 'Remove file'

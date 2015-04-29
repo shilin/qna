@@ -2,12 +2,17 @@ $('.alerts').html('<%= j render 'shared/alerts' %>');
 
 <% if @answer.errors.present? %>
     <% @answer.errors.full_messages.each do |message| %>
-      $('.answer-errors').html('<%= j message %>')
-    <% end %>
+    $('.answer-errors').html('<%= j message %>')
+  <% end %>
 <% else %>
-      $('.answers_list').append('<%= j render @answer  %>');
-      $('form#new_answer textarea#answer_body').val('');
-      $('.answer-errors').html('');
+    <% if remotipart_submitted? %>
+        $('.answers_list').append('<%= j "#{render @answer}" %>');
+    $('form#new_answer').replaceWith('<%= j "#{render 'answers/answer_form', question: @question, answer: @new_answer}" %>');
+  <% else %>
+      $('.answers_list').append('<%= j render @answer %>');
+    $('form#new_answer').replaceWith('<%= j render "answers/answer_form", question: @question, answer: @new_answer %>');
+  <% end %>
+  $('.answer-errors').html('');
 
 <% end %>
 

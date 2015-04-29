@@ -8,10 +8,10 @@ class QuestionsController < ApplicationController
   def show
 
     #@question.attachments.build
+   # @question.answers.each do |a|
+   #   a.attachments.build
+   # end
     @answer = @question.answers.build
-    @question.answers.each do |a|
-      a.attachments.build
-    end
   end
 
   def new

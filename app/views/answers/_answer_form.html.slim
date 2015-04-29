@@ -1,8 +1,8 @@
-= form_for [@question, answer], remote: true do |f|
+= nested_form_for [question, answer], remote: true do |f|
   div.form-group
-    = f.label 'body', 'answer body'
+    = f.label 'body'
     = f.text_area 'body', {class: 'form-control'}
     = f.fields_for(:attachments) do |a|
-      = a.label 'file', 'Attach file'
-      = a.file_field  'file'
-    = f.submit 'Submit'
+      = render 'shared/attachment_fields', f: a
+    = f.link_to_add 'Add file', :attachments
+  = f.submit 'Submit'
