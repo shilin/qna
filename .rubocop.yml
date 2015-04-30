@@ -9,3 +9,4 @@ AllCops:
     - spec/spec_helper.rb
     - db/migrate/*
     - config/application.rb
+    - public/*

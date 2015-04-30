@@ -12,7 +12,6 @@ class AnswersController < ApplicationController
     else
       flash[:alert] = 'Failed to save your answer!'
     end
-    
   end
 
   def show

@@ -4,7 +4,12 @@ $('.alerts').html('<%= j render 'shared/alerts' %>')
       $('.question-errors').html('<%= j message %>')
     <% end %>
 <% else %>
-  $('.question-errors').html('');
-  $('.question').replaceWith('<%= j render @question  %>');
-  $('.answers_list').html('<%= j render @question.answers.best_first %>');
+    <% if remotipart_submitted? %>
+        $('.question').replaceWith('<%= j "#{render @question}" %>');
+
+        $('.question-errors').html('');
+      <% else %>
+        $('.question').replaceWith('<%= j render @question  %>');
+        $('.question-errors').html('');
+    <% end %> 
 <% end %>

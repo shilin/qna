@@ -5,7 +5,6 @@ feature 'User can add files', %q(
   As a user
   I want to be able to add files to my answer
 ) do
-
   given(:question) { create(:question) }
   given(:user) { create(:user) }
 
@@ -34,7 +33,7 @@ feature 'User can add files', %q(
     end
 
     click_on 'Add file'
-    within all('.fields').last do
+    within all('.field').last do
       attach_file :file, "#{Rails.root}/spec/spec_helper.rb"
     end
     click_on 'Submit'

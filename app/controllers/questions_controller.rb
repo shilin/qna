@@ -6,17 +6,15 @@ class QuestionsController < ApplicationController
   end
 
   def show
-
-    #@question.attachments.build
-   # @question.answers.each do |a|
-   #   a.attachments.build
-   # end
+    # @question.attachments.build
+    # @question.answers.each do |a|
+    #   a.attachments.build
+    # end
     @answer = @question.answers.build
   end
 
   def new
     @question = Question.new
-    @question.attachments.build
   end
 
   def create

@@ -1,1 +1,4 @@
-= render 'question_form'
+= form_for(@question) do |f|
+  div.form-group
+    = render 'question_fields', f: f
+  = f.submit 'Submit'
