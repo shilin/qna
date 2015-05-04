@@ -4,8 +4,8 @@ class AnswersController < ApplicationController
   before_action :load_question, only: [:update, :update_best, :create]
 
   def create
-    @answer = @question.answers.build(answer_params)
-    @answer.user = current_user
+    @answer = @question.answers.build(answer_params.merge(user: current_user))
+    @new_answer = @question.answers.build
 
     if @answer.save
       flash[:notice] = 'Your answer is saved successfully!'
@@ -40,7 +40,7 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit([:body, :best])
+    params.require(:answer).permit([:body, :best], attachments_attributes: [:id, :file, :_destroy])
   end
 
   def load_answer

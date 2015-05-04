@@ -6,6 +6,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    # @question.attachments.build
+    # @question.answers.each do |a|
+    #   a.attachments.build
+    # end
+    @answer = @question.answers.build
   end
 
   def new
@@ -41,7 +46,8 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit([:title, :body, :best_answer_id])
+    params.require(:question).permit([:title, :body, :best_answer_id],
+                                     attachments_attributes: [:id, :file, :_destroy])
   end
 
   def load_question

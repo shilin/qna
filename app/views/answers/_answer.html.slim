@@ -5,12 +5,12 @@
       - if current_user.try(:author_of?, @question)
         = link_to 'Make it the best answer',
           update_best_question_answer_path(@question, answer, answer: { best: true }), remote: true, method: :patch
+
       - if current_user.try(:author_of?, answer)
+        ul
+          - answer.attachments.each do |a|
+            li = link_to a.file.filename, a.file.url
         => link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         = link_to 'Delete', question_answer_path(@question, answer), remote: true, method: :delete
 
-        = form_for [@question, answer], remote: true do |f|
-          div.form-group
-            = f.label 'body', 'answer'
-            = f.text_area 'body', {class: 'form-control'}
-          = f.submit 'Submit'
+        = render 'answers/answer_form', question: @question, answer: answer

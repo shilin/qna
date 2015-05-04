@@ -13,3 +13,17 @@
 /tmp
 config/database.yml
 *.swp
+
+# Ignore uploaded files
+/public/system
+/public/tmp
+/public/uploads
+/public/spec
+
+# Mac OS files
+.DS_Store
+
+# coverage files
+/coverage
+
+.powrc

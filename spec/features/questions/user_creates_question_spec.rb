@@ -18,8 +18,8 @@ feature 'Only authenticated user can create a question', %q(
     end
 
     scenario 'creates a valid question' do
-      fill_in 'Title', with: 'My question title'
-      fill_in 'Body', with: 'My question body'
+      fill_in 'title', with: 'My question title'
+      fill_in 'body', with: 'My question body'
       click_on 'Submit'
       expect(page).to have_content 'Question successfully created'
       expect(page).to have_content 'My question title'
@@ -27,8 +27,8 @@ feature 'Only authenticated user can create a question', %q(
     end
 
     scenario 'tries to creates an invalid question' do
-      fill_in 'Title', with: question.title
-      fill_in 'Body', with: nil
+      fill_in 'title', with: question.title
+      fill_in 'body', with: nil
       click_on 'Submit'
       expect(page).to have_content 'Failed to create question'
     end

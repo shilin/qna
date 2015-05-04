@@ -2,15 +2,12 @@
 
 
 ul.answers_list
-  = render @question.answers.order(best: :desc)
+  = render @question.answers.best_first
 p
 
 - if current_user
   .answer-errors
   p Give an answer:
-  = form_for [@question, Answer.new], remote: true do |f|
-    div.form-group
-      = f.label 'body'
-      = f.text_area 'body', {class: 'form-control'}
-    = f.submit 'Submit'
+
+  = render 'answers/answer_form', question: @question, answer: @answer
 

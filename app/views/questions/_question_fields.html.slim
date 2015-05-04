@@ -1,0 +1,11 @@
+.field
+  = f.label 'title', 'question title'
+  = f.text_field 'title', {class: 'form-control'}
+.field
+  = f.label 'body', 'question body'
+  = f.text_area 'body', {class: 'form-control'}
+#attachments
+  = f.fields_for(:attachments) do |a|
+    = render 'shared/attachment_fields', f: a
+  .links
+    = link_to_add_association 'Add file', f, :attachments, partial: 'shared/attachment_fields'
