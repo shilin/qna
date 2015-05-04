@@ -8,20 +8,6 @@ feature 'User can add files', %q(
   given(:question) { create(:question) }
   given(:user) { create(:user) }
 
-  scenario 'Authenticated user adds one file when giving answer', js: true do
-    sign_in user
-    visit question_path(question)
-
-    within('form.new_answer') do
-      fill_in :answer_body, with: 'My answer'
-      click_on 'Add file'
-      attach_file :file, "#{Rails.root}/spec/rails_helper.rb"
-      click_on 'Submit'
-    end
-
-    expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
-  end
-
   scenario 'Authenticated user adds several files when giving answer', js: true do
     sign_in user
     visit question_path(question)

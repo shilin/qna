@@ -58,8 +58,10 @@ feature 'User can remove files from his older answers', %q(
     end
 
     within('.answers_list .edit_answer') do
-      all(:link_or_button, 'Submit')[0].click
+      #all(:link_or_button, 'Submit')[0].click
+      click_on 'Submit'
     end
+
 
     expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
     expect(page).to_not have_content 'spec_helper.rb'
